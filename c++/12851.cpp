@@ -15,7 +15,7 @@ void bfs(){
             if(-1<next && next<100001){
                 if(dp[next][0]>dp[now][0]+1){
                     dp[next][0]=dp[now][0]+1;
-                    dp[next][1]=dp[now][1]; 
+                    dp[next][1]=dp[now][1];
                     q.push(next);
                 }
                 else if(dp[next][0]==dp[now][0]+1) dp[next][1]+=dp[now][1];
@@ -28,6 +28,6 @@ void bfs(){
 int main(){
     cin >> n >> k;
     for(int i=0;i<100001;i++){dp[i][0]=10000000;}
-    if(k<=n) cout << n-k << 1;
+    if(k<=n) cout << n-k << "\n1";
     else bfs();
 }
