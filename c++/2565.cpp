@@ -5,7 +5,7 @@ int main(){
     ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
     int n; cin >> n;
     int ans=1;
-    int dp[500]; fill(dp,dp+n,1);
+    int dp[501]; fill(dp+1,dp+501,1);
     vector<pair<int, int>> v(n);
     for(int i=0;i<n;i++) cin >> v[i].first >> v[i].second;
     sort(v.begin(),v.end(),[](pair<int, int> l, pair<int, int> r)->bool{return l.first<r.first;});
