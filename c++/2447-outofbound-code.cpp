@@ -21,9 +21,10 @@ void solve(int n, bool b){
 			solve(n/3,1); if(j!=2) ck-=n/3;
 		}
 		solve(n/3,0);
-		for(int j=0;j<4;j++){
+		for(int j=0;j<3;j++){
 			solve(n/3,1); if(j!=0) ck-=n/3;
 		}
+		solve(n/3,1);
     }
     else{
     	for(int j=0;j<3;j++) solve(3,1);
