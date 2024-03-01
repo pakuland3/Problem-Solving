@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<string> ans[2187];
+vector<string> ans[2188];
 int ck=0;
 
 void solve(int n, bool b){
