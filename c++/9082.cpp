@@ -63,3 +63,19 @@ int main(){
     while(t--) solve();
     return 0;
 }
+
+#include <iostream>
+using namespace std;
+
+int main(){
+    int t; scanf("%d",&t);
+    while(t--){
+        int sum=0,n,inn;
+        char c[101];
+        cin >> n;
+        for(int i=0;i<n;i++){scanf("%1d",&inn);sum+=inn;}
+        scanf("%s",c);
+        cout << (sum+2)/3 << '\n';
+    }
+    return 0;
+}
