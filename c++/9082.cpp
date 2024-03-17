@@ -5,23 +5,23 @@ void solve(){
     bool f[100]={0,};
     bool vis[100]={0,};
     char c;
-    int n,s=0,cnt,dx[]={-1,0,1},ans=0;
+    int n,s=0,mini=3,cnt,dx[]={-1,0,1},ans=0;
     cin >> n;
     vector<int> arr(n);
     for(int i=0;i<n;i++){
         cin >> c; arr[i]=c-'0';
-        if(arr[i]==3) s=i;
+        if(arr[i]<mini){s=i;mini=arr[i];}
     }
     for(int i=0;i<n;i++){
         cin >> c;
         if(c=='*'){
-            s=i;
             f[i]=1;
             ans++;
             for(int j=0;j<3;j++){
                 if(n<=i+dx[j] || i+dx[j]<0) continue;
                 arr[i+dx[j]]--;
             }
+            if(arr[i]<mini){s=i;mini=arr[i];}
         }
     }
     queue<int> q;
