@@ -14,7 +14,6 @@ int main(){
     for(int i=0;i<=n;i++){
         if(cnt[i]==i) ans=i;
     }
-    if(ans==-1) cout << -1;
-    else cout << ans;
+    cout << ans;
     return 0;
 }
