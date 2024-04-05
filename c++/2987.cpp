@@ -6,35 +6,44 @@ struct pos{
 };
 
 double getCCW(pos a, pos b, pos c){
-    return a.x*b.y+b.x*c.y+c.x*a.x-(b.x*a.y+c.x*b.y+a.x*c.y);
+    return a.x*b.y+b.x*c.y+c.x*a.y-(b.x*a.y+c.x*b.y+a.x*c.y);
 }
 
 int main(){
     ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
     int n,ans=0;
-    pos A,B,C;
-    cin >> A.x >> A.y >> B.x >> B.y >> C.x >> C.y;
-    cin >> n;
-    vector<pos> arr(n);
-    for(int i=0;i<n;i++) cin >> arr[i].x >> arr[i].y;
-    double area=getCCW(A,B,C);
+    pos A,B,C,tmp;
+    cin >> A.x >> A.y >> B.x >> B.y >> C.x >> C.y >> n;
+    double area=getCCW(A,B,C),ccw;
     for(int i=0;i<n;i++){
-        double ccw;
+        cin >> tmp.x >> tmp.y;
         if(area<0){
-            ccw=getCCW(A,arr[i],B);
+            ccw=getCCW(A,tmp,B);
             if(abs(ccw)>-area) continue;
-            if(ccw>0) continue;
-            ccw=getCCW(B,arr[i],C);
+            if(ccw<0) continue;
+            ccw=getCCW(B,tmp,C);
             if(abs(ccw)>-area) continue;
-            if(ccw>0) continue;
-            ccw=getCCW(C,arr[i],A);
+            if(ccw<0) continue;
+            ccw=getCCW(C,tmp,A);
             if(abs(ccw)>-area) continue;
             if(ccw<0) continue;
             ans++;
         }
         else{
-            
+            ccw=getCCW(A,tmp,B);
+            if(abs(ccw)>area) continue;
+            if(ccw>0) continue;
+            ccw=getCCW(B,tmp,C);
+            if(abs(ccw)>area) continue;
+            if(ccw>0) continue;
+            ccw=getCCW(C,tmp,A);
+            if(abs(ccw)>area) continue;
+            if(ccw>0) continue;
+            ans++;
         }
     }
+    cout << fixed;
+    cout.precision(1);
+    cout << abs(area)/2 << '\n' << ans;
     return 0;
 }
