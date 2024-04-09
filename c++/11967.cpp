@@ -21,6 +21,7 @@ int main(){
         q.pop();
         for(auto p:sw[x][y]){
             if(vis[p.first][p.second]) continue;
+            if(barn[p.first][p.second]) continue;
             ans++;
             barn[p.first][p.second]=1;
             for(int i=0;i<4;i++){
