@@ -23,8 +23,10 @@ int main(){
     set<ll> cycs;
     cycs.insert(tmp);
     cyc.push_back(tmp);
-    tmp=tmp%2?(2*tmp)^6:(tmp/2)^6;
+    if(tmp%2==0) tmp=(tmp/2)^6;
+    else tmp=(tmp*2)^6;
     while(cycs.find(tmp)==cycs.end()){
+        cyc.push_back(tmp);
         cycs.insert(tmp);
         if(tmp%2==0) tmp=(tmp/2)^6;
         else tmp=(tmp*2)^6;
@@ -33,7 +35,7 @@ int main(){
         for(auto it=um.begin();it!=um.end();it++) if(it->second==n){cout << it->first; return 0;}
     }
     else{
-        int ind=(n-s.size())%cyc.size();
+        int ind=(n+1-s.size())%cyc.size();
         if(ind==0) cout << cyc[cyc.size()-1];
         else cout << cyc[ind-1];
     }
