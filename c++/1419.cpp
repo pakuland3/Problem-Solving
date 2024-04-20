@@ -20,7 +20,11 @@ int main(){
     if(k==4){
         l=l>10?l+l%2:10;
         if(r<l) cout << 0;
-        else cout << r/2-l/2+1-(l<14);
+        else{
+            int ans=(r-l)/2+1;
+            if(l<14 && r>10) ans--;
+            cout << ans;
+        }
     }
     if(k==5){
         l=l>15?l+5-l%5:15;
