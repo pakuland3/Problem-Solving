@@ -30,7 +30,7 @@ int main(){
         if(r<l) cout << 0;
         else{
             int ans=(r-l)/2+1;
-            if(l==10 || l==12) ans--;
+            if(l<14 && r>10) ans--;
             cout << ans;
         }
     }
