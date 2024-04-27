@@ -10,6 +10,12 @@ int main(){
         int n;
         string s;
         cin >> n >> s;
+        if(n==1){
+            int cur=s[0]-'0';
+            if(cur!=6) cout << "6 3\n";
+            else cout << "9 3\n";
+            continue;
+        }
         int sum=0;
         for(int i=0;i<n;i++) sum+=s[i]-'0';
         for(int i=0;i<n;i++){
