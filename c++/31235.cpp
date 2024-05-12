@@ -15,6 +15,7 @@ int main(){
             k=max(k,i-ind);
             ind=i;
         }
+        if(i==n-1 && a[i]<cur) k=max(k,n-ind);
     }
     cout << k;
     return 0;
