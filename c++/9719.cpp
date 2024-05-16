@@ -7,7 +7,7 @@ int main(){
     int t;
     cin >> t;
     while(t--){
-        int v,e,islands=0;
+        int v,e,graphs=0;
         cin >> v >> e;
         vector<int> mark(v,-1);
         vector<vector<int>> graph(v, vector<int> ());
@@ -22,9 +22,10 @@ int main(){
         for(int i=0;i<v;i++){
             if(!ans) break;
             if(vis[i]) continue;
+            graphs++;
+            if(graph[i].size()==0) continue;
             stack<int> st;
             vis[i]=1;
-            if(graph[i].size()==0){islands++; continue;}
             mark[i]=0;
             st.push(i);
             while(!st.empty() && ans){
@@ -32,17 +33,15 @@ int main(){
                 st.pop();
                 for(int j=0;j<graph[now].size();j++){
                     if(mark[now]==mark[graph[now][j]]){ans=0; break;}
-                    mark[graph[now][j]]=!mark[now];
                     if(vis[graph[now][j]]) continue;
+                    mark[graph[now][j]]=!mark[now];
                     vis[graph[now][j]]=1;
                     st.push(graph[now][j]);
                 }
             }
         }
         if(!ans){cout << "-1\n"; continue;}
-        ll outP=pow(2,islands+1);
-        if(v>islands) cout << (islands>0?outP:2) << '\n';
-        else cout << outP/2 << '\n';
+        cout << (ll)pow(2,graphs) << '\n';
     }
     return 0;
 }
