@@ -2,55 +2,40 @@
 typedef long long ll;
 using namespace std;
 
-int gcd(ll a, ll b){
-    ll c;
-    while(b){
-        c=a%b;
-        a=b;
-        b=c;
-    }
-    return a;
-}
-
-int n,m,k;
-int arr[101];
-int ini;
-pair<int, int> ans_pair;
-double ansp=0;
-tuple<int, int, int> ans_tuple;
-
 int main(){
-    ios_base::sync_with_stdio(false); cin.tie(NULL);
+    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+    int n,a,b,c,k;
+    ll m;
     cin >> n >> m >> k;
-    for(int i=0;i<3*(m-1);i++){
-        cin >> ini;
-        arr[ini]++;
+    vector<ll> ct(n,0);
+    for(int i=1;i<m;i++){
+        cin >> a >> b >> c;
+        ct[--a]++; ct[--b]++; ct[--c]++;
     }
-    for(int i=1;i<=n;i++){
-        for(int j=i+1;j<=n;j++){
-            for(int l=j+1;l<=n;l++){
-                arr[i]++;arr[j]++;arr[l]++; 
-                int soni=arr[i]+arr[j]+arr[l];
-                int moti=3*m;
-                ll sonl=1;
-                ll motl=moti;
-                for(int cnt=0;cnt<k;cnt++){
-                    sonl*=(moti-soni);
-                    motl*=moti;
+    ll f=0,g=1;
+    for(int i=0;i<n-2;i++){
+        for(int j=i+1;j<n-1;j++){
+            for(int p=j+1;p<n;p++){
+                ll d=3ll*m-(ct[i]+ct[j]+ct[p]+3ll),e=3ll*m,div;
+                for(int h=1;h<k;h++){
+                    d*=3ll*m-(ct[i]+ct[j]+ct[p]+3ll);
+                    e*=3ll*m;
                 }
-                sonl*=soni;
-                double goalp=(double)sonl/motl;
-                if(goalp>ansp){
-                    int gcdi=gcd(sonl,motl);
-                    ans_pair.first=sonl/gcdi;
-                    ans_pair.second=motl/gcdi;
-                    ans_tuple={i,j,l};
-                    ansp=goalp;
+                d*=ct[i]+ct[j]+ct[p]+3ll;
+                e*=3ll*m;
+                div=gcd(d,e);
+                d/=div; e/=div;
+                if(f*e<d*g){
+                    f=d;
+                    g=e;
+                    a=i;
+                    b=j;
+                    c=p;
                 }
-                arr[i]--;arr[j]--;arr[l]--;
             }
         }
     }
-    cout << ans_pair.first << ' ' << ans_pair.second << '\n';
-    cout << get<0>(ans_tuple) << ' ' << get<1>(ans_tuple) << ' ' << get<2>(ans_tuple);
+    cout << f << ' ' << g << '\n';
+    cout << a+1 << ' ' << b+1 << ' ' << c+1;
+    return 0;
 }
