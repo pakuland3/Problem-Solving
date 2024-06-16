@@ -13,10 +13,12 @@ void update(int X, ll V, int node, int S, int E){
     int MID=(S+E)/2;
     if(X<=MID) update(X,V,2*node,S,MID);
     else update(X,V,2*node+1,MID+1,E);
-    tree[node]=tree[2*node]+tree[2*node+1];
+    tree[node]=min(tree[2*node],tree[2*node+1]);
 }
 
-
+int getMin(){
+    
+}
 
 int main(){
     ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
