@@ -25,11 +25,13 @@ void update(int X, int V, int node, int S, int E){
     }
 }
 
-int getMini(int L, int R, int node, int S, int E){
-    if(R<S || E<L) return MAX;
-    if(L<=S && E<=R) return idx[node];
+pair<int,int> getMini(int L, int R, int node, int S, int E){
+    if(R<S || E<L) return {MAX,-1};
+    if(L<=S && E<=R) return {tree[node],idx[node]};
     int MID=(S+E)/2;
-
+    pair<int,int> p1=getMini(L,R,2*node,S,MID),p2=getMini(L,R,2*node+1,MID+1,E);
+    if(p1.first>p2.first) return p2;
+    else return p1;
 }
 
 int main(){
@@ -42,7 +44,7 @@ int main(){
         int a,b;
         cin >> ini >> a >> b;
         if(ini==1) update(a,b,1,1,n);
-        else cout << getMini(a,b,1,1,n) << '\n';
+        else cout << getMini(a,b,1,1,n).second << '\n';
     }
     return 0;
 }
