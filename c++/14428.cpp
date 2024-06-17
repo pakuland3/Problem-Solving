@@ -4,8 +4,7 @@
 typedef long long ll;
 using namespace std;
 
-vector<int> tree(SIZE,MAX);
-vector<int> idx(SIZE,0);
+vector<int> tree(SIZE,MAX),idx(SIZE);
 
 void update(int X, int V, int node, int S, int E){
     if(S==E){
@@ -21,29 +20,29 @@ void update(int X, int V, int node, int S, int E){
         idx[node]=idx[2*node+1];
     }
     else{
-        tree[node]=tree[2*node+1];
+        tree[node]=tree[2*node];
         idx[node]=idx[2*node];
     }
 }
 
-int getMini(){
-    return idx[1];
+int getMini(int L, int R, int node, int S, int E){
+    if(R<S || E<L) return MAX;
+    if(L<=S && E<=R) return idx[node];
+    int MID=(S+E)/2;
+
 }
 
 int main(){
     ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
     int n,ini,m;
     cin >> n;
-    for(int i=1;i<=n;i++){
-        cin >> ini;
-        update(i,ini,1,1,n);
-    }
+    for(int i=1;i<=n;i++){cin >> ini; update(i,ini,1,1,n);}
     cin >> m;
     while(m--){
-        cin >> ini;
-        int i,v;
-        if(ini==2) cout << getMini() << '\n';
-        else{cin >> i >> v; update(i,v,1,1,n);}
+        int a,b;
+        cin >> ini >> a >> b;
+        if(ini==1) update(a,b,1,1,n);
+        else cout << getMini(a,b,1,1,n) << '\n';
     }
     return 0;
 }
