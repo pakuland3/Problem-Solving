@@ -28,6 +28,6 @@ int main(){
     int n,m,ini;
     cin >> n >> m;
     for(int i=1;i<=n;i++){cin >> ini; update(i,ini,1,1,n);}
-    for(int i=m;i<=n-m+1;i++) cout << query(i-,i+m,) << ' ';
+    for(int i=m;i<=n-m+1;i++) cout << query(i-(m-1),i+m-1,1,1,n) << ' ';
     return 0;
 }
