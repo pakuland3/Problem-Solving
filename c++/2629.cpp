@@ -13,9 +13,15 @@ int main(){
     dp[0][0]=dp[1][0]=1;
     for(int i=0;i<n;i++){
         for(int j=1;j<=sum;j++){
-            int add=j-a[i],subtract=j+a[i];
+            int add=j-a[i];
             if(dp[!(i%2)][j]) dp[i%2][j]=1;
             if(0<=add && dp[!(i%2)][add]) dp[i%2][j]=1;
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=1;j<=sum;j++){
+            int subtract=j+a[i];
+            if(dp[!(i%2)][j]) dp[i%2][j]=1;
             if(subtract<=sum && dp[!(i%2)][subtract]) dp[i%2][j]=1;
         }
     }
