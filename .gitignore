@@ -5,3 +5,4 @@ tmp/
 input.txt
 output.txt
 in
+tmp.*
