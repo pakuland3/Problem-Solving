@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 typedef long long ll;
+typedef long double ld;
 using namespace std;
 
 int main(){
@@ -7,19 +8,19 @@ int main(){
     cout.precision(9);
     cout << fixed;
     int n;
-    double s,e,eps=pow(10,-10);
+    ld s,e,eps=pow(10,-12);
     cin >> n;
-    vector<double> c(n),w(n);
-    for(double &t:c) cin >> t;
+    vector<ld> c(n),w(n);
+    for(ld &t:c) cin >> t;
     cin >> w[0];
     s=eps;
     e=1e6;
     for(int i=1;i<n;i++) cin >> w[i];
     while(e-s>=eps){
-        double a=s+(e-s)/3;
-        double b=a+(e-s)/3;
-        double difofa=0;
-        double difofb=0;
+        ld a=s+(e-s)/3;
+        ld b=e-(e-s)/3;
+        ld difofa=0;
+        ld difofb=0;
         for(int i=0;i<n;i++){
             difofa+=abs(c[i]*a-w[i]);
             difofb+=abs(c[i]*b-w[i]);
@@ -27,7 +28,7 @@ int main(){
         if(difofa>difofb) s=a;
         else e=b;
     }
-    double ans=0;
+    ld ans=0;
     for(int i=0;i<n;i++) ans+=abs(c[i]*s-w[i]);
     cout << ans;
     return 0;
