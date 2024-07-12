@@ -46,6 +46,14 @@ struct Poi{
     ll x,y;
 };
 
+bool sortbyx(Poi &l, Poi &r){
+    return l.x<r.x;
+};
+
+bool sortbyy(Poi &l, Poi &r){
+    return l.y<r.y;
+}
+
 int main(){
     ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
     Poi Ma,Ko;
@@ -54,17 +62,89 @@ int main(){
     cin >> Ko.x >> Ko.y >> b;
     int m,k;
     cin >> m >> k;
-    vector<Poi> Mp,Kp;
+    vector<Poi> Mxp,Myp,Kxp,Kyp;
     for(int i=0;i<m+k;i++){
         int x,y;
         cin >> x >> y;
-        if(Ma.x<=x && x<=Ma.x+a && Ma.y<=y && y<=Ma.y+a) Mp.push_back({x,y});
-        else Kp.push_back({x,y});
+        if(Ma.x<=x && x<=Ma.x+a && Ma.y<=y && y<=Ma.y+a){
+            Mxp.push_back({x,y});
+            Myp.push_back({x,y});
+        }
+        else{
+            Kxp.push_back({x,y});
+            Kyp.push_back({x,y});
+        }
     }
-    if(Ma.x+a<Ko.x){
-        
-        return 0;
+    ll ans=(ll)8e15;
+    Poi c,d;
+    sort(Mxp.begin(),Mxp.end(),sortbyx);
+    sort(Kxp.begin(),Kxp.end(),sortbyx);
+    sort(Myp.begin(),Myp.begin(),sortbyy);
+    sort(Kyp.begin(),Kyp.begin(),sortbyy);
+    ll dx[]={1,-1},startM[]={0,m-1},endM[]={m,-1};
+    ll startK[]={0,k-1},endK[]={k,-1};
+    for(int i=0;i<2;i++){
+        ll stxM=Mxp[startM[i]].x;
+        for(int j=startM[i];j*dx[i]<endM[i];j+=dx[i]){
+            if(Mxp[j].x*dx[i]>stxM) break;
+            for(int l=0;l<2;l++){
+                ll stxK=Kxp[startK[l]].x;
+                for(int n=startK[l];n*dx[l]<endK[l];n+=dx[l]){
+                    if(Kxp[n].x*dx[l]>stxK) break;
+                    ll dis=pow(Mxp[j].x-Kxp[n].x,2)+pow(Mxp[j].y-Kyp[n].y,2);
+                    if(dis<ans){
+                        ans=dis;
+                        c=Mxp[j];
+                        d=Kxp[n];
+                    }
+                }
+            }
+            for(int l=0;l<2;l++){
+                ll styK=Kxp[startK[l]].y;
+                for(int n=startK[l];n*dx[l]<endK[l];n+=dx[l]){
+                    if(Kxp[n].y*dx[l]>styK) break;
+                    ll dis=pow(Mxp[j].x-Kxp[n].x,2)+pow(Mxp[j].y-Kyp[n].y,2);
+                    if(dis<ans){
+                        ans=dis;
+                        c=Mxp[j];
+                        d=Kxp[n];
+                    }
+                }
+            }
+        }
     }
-    
+    for(int i=0;i<2;i++){
+        ll styM=Myp[startM[i]].y;
+        for(int j=startM[i];j*dx[i]<endM[i];j+=dx[i]){
+            if(Mxp[j].y*dx[i]>styM) break;
+            for(int l=0;l<2;l++){
+                ll stxK=Kxp[startK[l]].x;
+                for(int n=startK[l];n*dx[l]<endK[l];n+=dx[l]){
+                    if(Kxp[n].x*dx[l]>stxK) break;
+                    ll dis=pow(Mxp[j].x-Kxp[n].x,2)+pow(Mxp[j].y-Kyp[n].y,2);
+                    if(dis<ans){
+                        ans=dis;
+                        c=Mxp[j];
+                        d=Kxp[n];
+                    }
+                }
+            }
+            for(int l=0;l<2;l++){
+                ll styK=Kxp[startK[l]].y;
+                for(int n=startK[l];n*dx[l]<endK[l];n+=dx[l]){
+                    if(Kxp[n].y*dx[l]>styK) break;
+                    ll dis=pow(Mxp[j].x-Kxp[n].x,2)+pow(Mxp[j].y-Kyp[n].y,2);
+                    if(dis<ans){
+                        ans=dis;
+                        c=Mxp[j];
+                        d=Kxp[n];
+                    }
+                }
+            }
+        }
+    }
+    cout << ans << '\n';
+    cout << c.x << ' ' << c.y << '\n';
+    cout << d.x << ' ' << d.y;
     return 0;
 }
