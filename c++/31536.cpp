@@ -79,10 +79,10 @@ int main(){
     Poi c,d;
     sort(Mxp.begin(),Mxp.end(),sortbyx);
     sort(Kxp.begin(),Kxp.end(),sortbyx);
-    sort(Myp.begin(),Myp.begin(),sortbyy);
-    sort(Kyp.begin(),Kyp.begin(),sortbyy);
-    ll dx[]={1,-1},startM[]={0,m-1},endM[]={m,-1};
-    ll startK[]={0,k-1},endK[]={k,-1};
+    sort(Myp.begin(),Myp.end(),sortbyy);
+    sort(Kyp.begin(),Kyp.end(),sortbyy);
+    int dx[]={1,-1},startM[]={0,m-1},endM[]={m,-1};
+    int startK[]={0,k-1},endK[]={k,-1};
     for(int i=0;i<2;i++){
         stxM=Mxp[startM[i]].x;
         for(int j=startM[i];j*dx[i]<endM[i];j+=dx[i]){
