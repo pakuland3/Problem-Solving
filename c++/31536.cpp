@@ -160,7 +160,7 @@ struct Poi{
 
 struct info{
     Poi p;
-    ll minx=1e6+1,maxx=-1e6-1,miny=minx,maxy=maxy;
+    ll minx=1e8,maxx=-1e8,miny=minx,maxy=maxy;
 };
 
 int main(){
@@ -191,13 +191,13 @@ int main(){
             ko.maxy=max(ko.maxy,y);
         }
     }
-    ll ans=1e13,dis;
+    ll ans=1e17,dis;
     Poi c,d;
     if(ma.maxx<ko.minx){
-        for(int i=0;i<=b;i++) if(kooy[i].size()>0) sort(kooy[i].begin(),kooy[i].end(),less<ll>());
+        for(int i=0;i<=b;i++) if(kooy[i].size()>1) sort(kooy[i].begin(),kooy[i].end(),less<ll>());
         for(int i=0;i<=a;i++){
-            if(maay[i].size()<1) continue; 
-            sort(maay[i].begin(),maay[i].end(),greater<ll>());
+            if(maay[i].size()<1) continue;
+            if(maay[i].size()>1) sort(maay[i].begin(),maay[i].end(),greater<ll>());
             for(int j=0;j<=b;j++){
                 if(kooy[j].size()<1) continue;
                 dis=(maay[i][0]-kooy[j][0])*(maay[i][0]-kooy[j][0])+(ma.p.y+i-ko.p.y-j)*(ma.p.y+i-ko.p.y-j);
@@ -214,10 +214,10 @@ int main(){
         return 0;
     }
     if(ko.maxx<ma.minx){
-        for(int i=0;i<=b;i++) if(kooy[i].size()>0) sort(kooy[i].begin(),kooy[i].end(),greater<ll>());
+        for(int i=0;i<=b;i++) if(kooy[i].size()>1) sort(kooy[i].begin(),kooy[i].end(),greater<ll>());
         for(int i=0;i<=a;i++){
             if(maay[i].size()<1) continue; 
-            sort(maay[i].begin(),maay[i].end(),less<ll>());
+            if(maay[i].size()>1) sort(maay[i].begin(),maay[i].end(),less<ll>());
             for(int j=0;j<=b;j++){
                 if(kooy[j].size()<1) continue;
                 dis=(maay[i][0]-kooy[j][0])*(maay[i][0]-kooy[j][0])+(ma.p.y+i-ko.p.y-j)*(ma.p.y+i-ko.p.y-j);
@@ -234,10 +234,10 @@ int main(){
         return 0;
     }
     if(ma.maxy<ko.miny){
-        for(int i=0;i<=b;i++) if(koox[i].size()>0) sort(koox[i].begin(),koox[i].end(),less<ll>());
+        for(int i=0;i<=b;i++) if(koox[i].size()>1) sort(koox[i].begin(),koox[i].end(),less<ll>());
         for(int i=0;i<=a;i++){
             if(maax[i].size()<1) continue; 
-            sort(maax[i].begin(),maax[i].end(),greater<ll>());
+            if(maax[i].size()>1) sort(maax[i].begin(),maax[i].end(),greater<ll>());
             for(int j=0;j<=b;j++){
                 if(koox[j].size()<1) continue;
                 dis=(maax[i][0]-koox[j][0])*(maax[i][0]-koox[j][0])+(ma.p.x+i-ko.p.x-j)*(ma.p.x+i-ko.p.x-j);
@@ -253,10 +253,10 @@ int main(){
         cout << d.x << ' ' << d.y;
         return 0;
     }
-    for(int i=0;i<=b;i++) if(koox[i].size()>0) sort(koox[i].begin(),koox[i].end(),greater<ll>());
+    for(int i=0;i<=b;i++) if(koox[i].size()>1) sort(koox[i].begin(),koox[i].end(),greater<ll>());
     for(int i=0;i<=a;i++){
         if(maax[i].size()<1) continue; 
-        sort(maax[i].begin(),maax[i].end(),less<ll>());
+        if(maax[i].size()>1) sort(maax[i].begin(),maax[i].end(),less<ll>());
         for(int j=0;j<=b;j++){
             if(koox[j].size()<1) continue;
             dis=(maax[i][0]-koox[j][0])*(maax[i][0]-koox[j][0])+(ma.p.x+i-ko.p.x-j)*(ma.p.x+i-ko.p.x-j);
