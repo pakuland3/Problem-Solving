@@ -9,7 +9,9 @@ ll solve(int l, int r){
     if(l==r) return a[l];
     int s=(l+r)/2,e=s+1;
     ll tmp=min(a[s],a[e])*2;
-    
+    while(s!=l || e!=r){
+        
+    }
     return max(tmp,max(solve(l,s),solve(e,r)));
 }
 
