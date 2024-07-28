@@ -150,8 +150,8 @@
 // }
 
 #include <bits/stdc++.h>
+#define NOASSIGNED 2000001
 typedef long long ll;
-typedef long double ld;
 using namespace std;
 
 struct Poi{
@@ -167,44 +167,65 @@ int main(){
     ios_base::sync_with_stdio(false); cin.tie(NULL);
     info ma,ko;
     ll a,b;
-    vector<ll> maax[1001],koox[1001],maay[1001],kooy[1001];
+    vector<vector<ll>> matx(2,vector<ll> (1001,NOASSIGNED)),maty(2,vector<ll> (1001,NOASSIGNED)),korx(2,vector<ll> (1001,NOASSIGNED)),kory(2,vector<ll> (1001,NOASSIGNED));
     int m,k;
     cin >> ma.p.x >> ma.p.y >> a >> ko.p.x >> ko.p.y >> b;
     cin >> m >> k;
     for(int i=0;i<m+k;i++){
         ll x,y;
+        ll tx,ty;
         cin >> x >> y;
         if(ma.p.x<=x && x<=ma.p.x+a && ma.p.y<=y && y<=ma.p.y+a){
-            maax[x-ma.p.x].push_back(y);
-            maay[y-ma.p.y].push_back(x);
+            tx=x-ma.p.x;
+            ty=y-ma.p.y;
+            if(matx[0][tx]==NOASSIGNED){
+                matx[0][tx]=matx[1][tx]=y;
+                maty[0][ty]=maty[1][ty]=x;
+            }
+            else{
+                matx[0][tx]=min(matx[0][tx],y);
+                matx[1][tx]=max(matx[1][tx],y);
+                maty[0][ty]=min(maty[0][ty],x);
+                maty[1][ty]=max(maty[1][ty],x);
+            }
             ma.minx=min(ma.minx,x);
             ma.maxx=max(ma.maxx,x);
             ma.miny=min(ma.miny,y);
             ma.maxy=max(ma.maxy,y);
         }
         else{
-            koox[x-ko.p.x].push_back(y);
-            kooy[y-ko.p.y].push_back(x);
+            tx=x-ko.p.x;
+            ty=y-ko.p.y;
+            if(korx[0][tx]==NOASSIGNED){
+                korx[0][tx]=korx[1][tx]=y;
+                kory[0][ty]=kory[1][ty]=x;
+            }
+            else{
+                korx[0][tx]=min(korx[0][tx],y);
+                korx[1][tx]=max(korx[1][tx],y);
+                kory[0][ty]=min(kory[0][ty],x);
+                kory[1][ty]=max(kory[1][ty],x);
+            }
             ko.minx=min(ko.minx,x);
             ko.maxx=max(ko.maxx,x);
             ko.miny=min(ko.miny,y);
             ko.maxy=max(ko.maxy,y);
         }
     }
-    ll ans=1e17,dis;
+    ll ans=1e17,dis,f,g;
     Poi c,d;
     if(ma.maxx<ko.minx){
-        for(int i=0;i<=b;i++) if(kooy[i].size()>1) sort(kooy[i].begin(),kooy[i].end(),less<ll>());
-        for(int i=0;i<=a;i++){
-            if(maay[i].size()<1) continue;
-            if(maay[i].size()>1) sort(maay[i].begin(),maay[i].end(),greater<ll>());
-            for(int j=0;j<=b;j++){
-                if(kooy[j].size()<1) continue;
-                dis=(maay[i][0]-kooy[j][0])*(maay[i][0]-kooy[j][0])+(ma.p.y+i-ko.p.y-j)*(ma.p.y+i-ko.p.y-j);
+        for(ll i=0;i<=a;i++){
+            if(maty[0][i]==NOASSIGNED) continue;
+            for(ll j=0;j<=b;j++){
+                if(kory[0][j]==NOASSIGNED) continue;
+                f=i+ma.p.y;
+                g=j+ko.p.y;
+                dis=(maty[1][i]-kory[0][j])*(maty[1][i]-kory[0][j])+(f-g)*(f-g);
                 if(dis<ans){
                     ans=dis;
-                    c={maay[i][0],i+ma.p.y};
-                    d={kooy[j][0],j+ko.p.y};
+                    c={maty[1][i],f};
+                    d={kory[0][j],g};
                 }
             }
         }
@@ -214,17 +235,17 @@ int main(){
         return 0;
     }
     if(ko.maxx<ma.minx){
-        for(int i=0;i<=b;i++) if(kooy[i].size()>1) sort(kooy[i].begin(),kooy[i].end(),greater<ll>());
-        for(int i=0;i<=a;i++){
-            if(maay[i].size()<1) continue; 
-            if(maay[i].size()>1) sort(maay[i].begin(),maay[i].end(),less<ll>());
-            for(int j=0;j<=b;j++){
-                if(kooy[j].size()<1) continue;
-                dis=(maay[i][0]-kooy[j][0])*(maay[i][0]-kooy[j][0])+(ma.p.y+i-ko.p.y-j)*(ma.p.y+i-ko.p.y-j);
+        for(ll i=0;i<=a;i++){
+            if(maty[0][i]==NOASSIGNED) continue;
+            for(ll j=0;j<=b;j++){
+                if(kory[0][j]==NOASSIGNED) continue;
+                f=i+ma.p.y;
+                g=j+ko.p.y;
+                dis=(maty[0][i]-kory[1][j])*(maty[0][i]-kory[1][j])+(f-g)*(f-g);
                 if(dis<ans){
                     ans=dis;
-                    c={maay[i][0],i+ma.p.y};
-                    d={kooy[j][0],j+ko.p.y};
+                    c={maty[0][i],f};
+                    d={kory[1][j],g};
                 }
             }
         }
@@ -234,17 +255,17 @@ int main(){
         return 0;
     }
     if(ma.maxy<ko.miny){
-        for(int i=0;i<=b;i++) if(koox[i].size()>1) sort(koox[i].begin(),koox[i].end(),less<ll>());
-        for(int i=0;i<=a;i++){
-            if(maax[i].size()<1) continue; 
-            if(maax[i].size()>1) sort(maax[i].begin(),maax[i].end(),greater<ll>());
-            for(int j=0;j<=b;j++){
-                if(koox[j].size()<1) continue;
-                dis=(maax[i][0]-koox[j][0])*(maax[i][0]-koox[j][0])+(ma.p.x+i-ko.p.x-j)*(ma.p.x+i-ko.p.x-j);
+        for(ll i=0;i<=a;i++){
+            if(matx[0][i]==NOASSIGNED) continue;
+            for(ll j=0;j<=b;j++){
+                if(korx[0][j]==NOASSIGNED) continue;
+                f=i+ma.p.x;
+                g=j+ko.p.x;
+                dis=(matx[1][i]-korx[0][j])*(matx[1][i]-korx[0][j])+(f-g)*(f-g);
                 if(dis<ans){
                     ans=dis;
-                    c={i+ma.p.x,maax[i][0]};
-                    d={j+ko.p.x,koox[j][0]};
+                    c={f,matx[1][i]};
+                    d={g,korx[0][j]};
                 }
             }
         }
@@ -253,17 +274,17 @@ int main(){
         cout << d.x << ' ' << d.y;
         return 0;
     }
-    for(int i=0;i<=b;i++) if(koox[i].size()>1) sort(koox[i].begin(),koox[i].end(),greater<ll>());
-    for(int i=0;i<=a;i++){
-        if(maax[i].size()<1) continue; 
-        if(maax[i].size()>1) sort(maax[i].begin(),maax[i].end(),less<ll>());
-        for(int j=0;j<=b;j++){
-            if(koox[j].size()<1) continue;
-            dis=(maax[i][0]-koox[j][0])*(maax[i][0]-koox[j][0])+(ma.p.x+i-ko.p.x-j)*(ma.p.x+i-ko.p.x-j);
+    for(ll i=0;i<=a;i++){
+        if(matx[0][i]==NOASSIGNED) continue;
+        for(ll j=0;j<=b;j++){
+            if(korx[0][j]==NOASSIGNED) continue;
+            f=i+ma.p.x;
+            g=j+ko.p.x;
+            dis=(matx[0][i]-korx[1][j])*(matx[0][i]-korx[1][j])+(f-g)*(f-g);
             if(dis<ans){
                 ans=dis;
-                c={i+ma.p.x,maax[i][0]};
-                d={j+ko.p.x,koox[j][0]};
+                c={f,matx[0][i]};
+                d={g,korx[1][j]};
             }
         }
     }
