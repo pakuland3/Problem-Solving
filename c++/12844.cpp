@@ -48,7 +48,7 @@ int query(int L, int R, int node, int S, int E){
     if(R<S || E<L) return 0;
     if(L<=S && E<=R) return tree[node];
     int MID=(S+E)/2;
-    return query(L,R,2*node,1,MID)^query(L,R,2*node+1,MID+1,E);
+    return query(L,R,2*node,S,MID)^query(L,R,2*node+1,MID+1,E);
 }
 
 int main(){
