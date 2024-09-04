@@ -3,14 +3,17 @@ typedef long long ll;
 using namespace std;
 
 int main(){
-    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
     ll n,k;
-    vector<ll> p;
     cin >> n >> k;
-    for(int i=1;i<=n+1;i++){
-        p.push_back(i*i);
+    ll s=1,e=k,c=0;
+    while(s<=e){
+        ll mid=(s+e)/2;
+        c=0;
+        for(int i=1;i<=n;i++) c+=min(n,mid/(ll)i);
+        if(c>=k) e=mid-1;
+        else s=mid+1;
     }
-    ll s=1,e=n*n;
-    
+    cout << s;
     return 0;
 }
