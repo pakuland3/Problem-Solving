@@ -2,33 +2,32 @@
 typedef long long ll;
 using namespace std;
 
-ll res=0;
-int n,a;
-int back[2];
-
 int main(){
     ios_base::sync_with_stdio(false); cin.tie(NULL);
+    int n,a,cur;
     cin >> n;
-    stack<int> st;
-    for(int i=0;i<n;i++){
+    ll res=0;
+    stack<pair<int,pair<int,bool>>> st;
+    while(n--){
         cin >> a;
-        back[i%2]=0;
-        while(!st.empty()){
-            if(st.top()>a){
-                res++;
-                back[i%2]++;
-                break;
-            }
-            if(st.top()==a){
-                res+=back[!(i%2)];
-                back[i%2]+=back[!(i%2)];
-                break;
-            }
-            st.pop();
-            back[i%2]++;
-            res++;
+        if(st.empty()){
+            st.push({a,{1,1}});
+            continue;
         }
-        st.push(a);
+        while(!st.empty() && st.top().first<a){
+            res++;
+            st.pop();
+        }
+        if(!st.empty()){
+            if(st.top().first==a){
+                cur=st.top().second.first;
+                res+=(ll)(cur+!st.top().second.second);
+                st.push({a,{cur+1,st.top().second.second}});
+                continue;
+            }
+            else res++;
+        }
+        st.push({a,{1,st.empty()}});
     }
     cout << res;
     return 0;
