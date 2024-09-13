@@ -6,6 +6,15 @@ using namespace std;
 vector<int> p;
 bool s[MAX];
 
+int solve(int a){
+    int idx=0;
+    while(p[idx]<=a/2){
+        if(binary_search(p.begin(),p.end(),a-p[idx])) return p[idx];
+        idx++;
+    }
+    return 0;
+}
+
 int main(){
     ios_base::sync_with_stdio(false); cin.tie(NULL);
     for(int i=2;i<MAX;i++){
@@ -15,27 +24,23 @@ int main(){
     }
     int n;
     cin >> n;
+    if(n<9){
+        if(n==8) cout << "2 2 2 2";
+        else cout << -1;
+        return 0;
+    }
+    int a,b,c,d;
     if(n%2){
-        cout << -1;
-        return 0;
+        cout << "2 3 "; n-=5;
+        a=solve(n);
+        cout << a << ' ' << n-a;
     }
-    int a=n/2-(n/2)%2;
-    int b=n/2+(n/2)%2;
-    if(a<4 || b<4){
-        cout << -1;
-        return 0;
+    else{
+        a=n/2-(n/2)%2;
+        b=n/2+(n/2)%2;
+        c=solve(a);
+        d=solve(b);
+        cout << c << ' ' << a-c << ' ' << d << ' ' << b-d;
     }
-    int idx=0;
-    int ans1,ans2;
-    while(p[idx]<=a/2){
-        if(binary_search(p.begin(),p.end(),a-p[idx])) ans1=p[idx];
-        idx++;
-    }
-    idx=0;
-    while(p[idx]<=b/2){
-        if(binary_search(p.begin(),p.end(),b-p[idx])) ans2=p[idx];
-        idx++;
-    }
-    cout << ans1 << ' ' << a-ans1 << ' ' << ans2 << ' ' << b-ans2;
     return 0;
 }
