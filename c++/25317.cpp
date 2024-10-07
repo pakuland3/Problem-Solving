@@ -33,13 +33,14 @@ int main(){
     cin >> n;
     bool sign=1;
     unordered_set<ll> us;
-    vector<bool> order(n);
+    vector<bool> order(n,0);
     vector<pair<ll,int>> p;
     // CASES
     // if int is 0 -> do not update and change sign
     // if int is 1 -> do not change sign and update
     // if int is 2 -> change sign and update
     // if int is 3 -> freakingeasyproblem
+    // if int is 4 -> ignore
     vector<ll> q,r;
     for(int i=0;i<n;i++){
         int s;
@@ -52,10 +53,22 @@ int main(){
             if(a==0){
                 if(b==0) p.push_back({0,3});
                 if(b<0) p.push_back({0,0});
+                if(b>0) p.push_back({0,4});
                 continue;
             }
             if(a<0){
-                if(b%a==0 && us.find(-b/a)==us.end()) us.insert(-b/a);
+                if(b==0){
+                    if(us.find(0)==us.end()) us.insert(0);
+                    p.push_back({0,2});
+                    r.push_back(0);
+                    continue;
+                }
+                if(b%a==0){
+                    if(us.find(-b/a)==us.end()) us.insert(-b/a);
+                    p.push_back({-b/a,2});
+                    r.push_back(-b/a);
+                    continue;
+                }
                 p.push_back({-b/a-isMinus,2});
                 r.push_back(-b/a-isMinus);
                 continue;
@@ -88,6 +101,11 @@ int main(){
             if(us.find(q[qi])!=us.end()) cout << "0\n";
             else cout << ((tt%2==0)^sign?'-':'+') << '\n';
             qi++;
+            continue;
+        }
+        if(p.empty()) continue;
+        if(p[pi].SE==4){
+            pi++;
             continue;
         }
         if(p[pi].SE==3) FREAKINGEASYPROBLEM=1;
