@@ -39,6 +39,7 @@ int main(){
     // if int is 0 -> do not update and change sign
     // if int is 1 -> do not change sign and update
     // if int is 2 -> change sign and update
+    // if int is 3 -> freakingeasyproblem
     vector<ll> q,r;
     for(int i=0;i<n;i++){
         int s;
@@ -48,7 +49,7 @@ int main(){
             order[i]=0;
             cin >> b;
             if(a==0){
-                if(b==0) FREAKINGEASYPROBLEM=1;
+                if(b==0) p.push_back({0,3});
                 if(b<0) p.push_back({0,0});
                 continue;
             }
@@ -88,7 +89,8 @@ int main(){
             qi++;
             continue;
         }
-        if(p[pi].SE==0) sign=!sign;
+        if(p[pi].SE==3) FREAKINGEASYPROBLEM=1;
+        else if(p[pi].SE==0) sign=!sign;
         else{
             int t=lower_bound(r.begin(),last,p[pi].FI)-r.begin()+1;
             update(t,1,1,SIZE);
