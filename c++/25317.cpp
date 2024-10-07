@@ -91,7 +91,7 @@ int main(){
             continue;
         }
         if(p[pi].SE==3) FREAKINGEASYPROBLEM=1;
-        else if(p[pi].SE==0) sign=!sign;
+        if(p[pi].SE==0) sign=!sign;
         else{
             int t=lower_bound(r.begin(),last,p[pi].FI)-r.begin()+1;
             update(t,1,1,SIZE);
