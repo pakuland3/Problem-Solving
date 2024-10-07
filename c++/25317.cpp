@@ -46,6 +46,7 @@ int main(){
         ll a,b;
         cin >> s >> a;
         if(s==1){
+            bool isMinus=((a>0 && b>0) || (a<0 && b<0));
             order[i]=0;
             cin >> b;
             if(a==0){
@@ -55,8 +56,8 @@ int main(){
             }
             if(a<0){
                 if(b%a==0 && us.find(-b/a)==us.end()) us.insert(-b/a);
-                p.push_back({-b/a-((a>0 && b>0) || (a<0 && b<0)),2});
-                r.push_back(-b/a-((a>0 && b>0) || (a<0 && b<0)));
+                p.push_back({-b/a-isMinus,2});
+                r.push_back(-b/a-isMinus);
                 continue;
             }
             if(b%a==0){
@@ -65,8 +66,8 @@ int main(){
                 r.push_back(-b/a);
                 continue;
             }
-            p.push_back({-b/a-((a>0 && b>0) || (a<0 && b<0)),1});
-            r.push_back(-b/a-((a>0 && b>0) || (a<0 && b<0)));
+            p.push_back({-b/a-isMinus,1});
+            r.push_back(-b/a-isMinus);
         }
         else{
             order[i]=1;
