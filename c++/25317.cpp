@@ -161,6 +161,8 @@ int main(){
     // 2 change sign, update
     // 3 turn on GAMEOVER
     // 4 do nothing
+    // 5 insert point to set and update
+    // 6 5 + change sign
     vector<pair<ll,int>> updates;
     unordered_set<ll> s;
     for(int i=0;i<n;i++){
@@ -179,8 +181,7 @@ int main(){
                 continue;
             }
             if(b%a==0){
-                if(s.find(-b/a)==s.end()) s.insert(-b/a);
-                updates.push_back({-b/a,1+(a<0)});
+                updates.push_back({-b/a,5+(a<0)});
                 coordinates.push_back(-b/a);
                 continue;
             }
@@ -196,11 +197,12 @@ int main(){
     for(int i=0;i<n;i++){
         if(order[i]){
             if(updates[ui].SE==3) GAMEOVER=1;
-            if(updates[ui].SE==0 || updates[ui].SE==2) sign=!sign;
+            if(updates[ui].SE==0 || updates[ui].SE==2 || updates[ui].SE==6) sign=!sign;
             if(updates[ui].SE==4 || updates[ui].SE==3 || updates[ui].SE==0){
                 ui++;
                 continue;
             }
+            if(updates[ui].SE==5 || updates[ui].SE==6 && s.find(updates[ui].FI)==s.end()) s.insert(updates[ui].FI);
             int t=lower_bound(coordinates.begin(),last,updates[ui].FI)-coordinates.begin()+1;
             update(t,1,1,SIZE);
             ui++;
