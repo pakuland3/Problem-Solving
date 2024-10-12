@@ -4,9 +4,9 @@ tmp/
 .cph/
 input.txt
 output.txt
-in
-out
+in.*
+out.*
 tmp.*
 in_out
-input
-ouput
+input.*
+ouput.*
