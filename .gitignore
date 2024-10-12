@@ -8,3 +8,5 @@ in
 out
 tmp.*
 in_out
+input
+ouput
