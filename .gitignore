@@ -10,3 +10,9 @@ tmp.*
 in_out
 input.*
 ouput.*
+input
+output
+in
+out
+*.in
+*.out
