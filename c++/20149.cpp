@@ -53,10 +53,10 @@ bool isVertical(l a){ return a.p1.x==a.p2.x; }
 bool isHorizontal(l a){ return a.p1.y==a.p2.y; }
 
 void doGCD(frac &a){
-    ll n=gcd(abs(a.top),abs(a.bottom));
-    if(n==0) return;
-    a.top/=n;
-    a.bottom/=n;
+    ll g=gcd(abs(a.bottom),abs(a.top));
+    if(g==0) return;
+    a.top/=g;
+    a.bottom/=g;
 }
 
 int main(){
@@ -69,31 +69,53 @@ int main(){
     bool s=isIntersect(a,b);
     if(s){
         cout << "1\n";
+        frac aa,bb,ap,bp,x,y;
+        aa.top=a.p1.y-a.p2.y,aa.bottom=a.p1.x-a.p2.x;
+        doGCD(aa);
+        bb.top=(a.p1.x-a.p2.x)*a.p1.y-(a.p1.y-a.p2.y)*a.p1.x,bb.bottom=a.p1.x-a.p2.x;
+        doGCD(bb);
+        ap.top=b.p1.y-b.p2.y,ap.bottom=b.p1.x-b.p2.x;
+        doGCD(ap);
+        bp.top=(b.p1.x-b.p2.x)*b.p1.y-(b.p1.y-b.p2.y)*b.p1.x,bp.bottom=b.p1.x-b.p2.x;
+        doGCD(bp);
         if(a.p1==b.p2) printp(a.p1);
         else if(a.p2==b.p1) printp(a.p2);
         else if(isVertical(a) && isHorizontal(b)) cout << a.p1.x << ' ' << b.p1.y;
         else if(isVertical(b) && isHorizontal(a)) cout << b.p1.x << ' ' << a.p1.y;
         else if(!(isVertical(a) && isVertical(b)) && !(isHorizontal(a) && isHorizontal(b))){
-            frac aa,bb,ap,bp,x,y;
-            aa.top=a.p1.y-a.p2.y,aa.bottom=a.p1.x-a.p2.x;
-            doGCD(aa);
-            bb.top=(a.p1.x-a.p2.x)*a.p1.y-(a.p1.y-a.p2.y)*a.p1.x,bb.bottom=a.p1.x-a.p2.x;
-            doGCD(bb);
-            ap.top=b.p1.y-b.p2.y,ap.bottom=b.p1.x-b.p2.x;
-            doGCD(ap);
-            bp.top=(b.p1.x-b.p2.x)*b.p1.y-(b.p1.y-b.p2.y)*b.p1.x,bp.bottom=b.p1.x-b.p2.x;
-            doGCD(bp);
-            bool c1=aa.top*ap.bottom==ap.top*aa.bottom;
-            bool c2=bb.top*bp.bottom==bp.top*bb.bottom;
-            if(!(c1 && c2)){
-                x.top=aa.bottom*ap.bottom*(bp.bottom*bb.top-bb.bottom*bp.top);
-                x.top*=-1;
-                x.bottom=bb.bottom*bp.bottom*(ap.bottom*aa.top-aa.bottom*ap.top);
+            if(isHorizontal(a)){
+                x.top=ap.bottom*(bp.bottom*a.p1.y-bp.top);
+                x.bottom=ap.top*bp.bottom;
+                cout << x.top/(double)x.bottom << ' ' << a.p1.y;
+            }
+            else if(isVertical(a)){
+                y.top=ap.top*a.p1.x*bp.bottom+bp.top*ap.bottom;
+                y.bottom=ap.bottom*bp.bottom;
+                cout << a.p1.x << ' ' << y.top/(double)y.bottom;
+            }
+            else if(isHorizontal(b)){
+                x.top=aa.bottom*(bb.bottom*b.p1.y-bb.top);
+                x.bottom=aa.top*bb.bottom;
                 doGCD(x);
-                y.top=aa.top*x.top*bb.bottom+bb.top*aa.bottom*x.bottom;
-                y.bottom=aa.bottom*x.bottom*bb.bottom;
+                cout << x.top/(double)x.bottom << ' ' << b.p1.y;
+            }
+            else if(isVertical(b)){
+                y.top=aa.top*b.p1.x*bb.bottom+bb.top*aa.bottom;
+                y.bottom=aa.bottom*bb.bottom;
                 doGCD(y);
-                cout << x.top/(double)x.bottom << ' ' << y.top/(double)y.bottom;
+                cout << b.p1.x << ' ' << y.top/(double)y.bottom;
+            }
+            else{
+                bool c1=aa.top*ap.bottom==ap.top*aa.bottom;
+                bool c2=bb.top*bp.bottom==bp.top*bb.bottom;
+                if(!(c1 && c2)){
+                    x.top=aa.bottom*ap.bottom*(bp.bottom*bb.top-bb.bottom*bp.top);
+                    x.top*=-1;
+                    x.bottom=bb.bottom*bp.bottom*(ap.bottom*aa.top-aa.bottom*ap.top);
+                    y.top=aa.top*x.top*bb.bottom+bb.top*aa.bottom*x.bottom;
+                    y.bottom=aa.bottom*x.bottom*bb.bottom;
+                    cout << x.top/(double)x.bottom << ' ' << y.top/(double)y.bottom;
+                }
             }
         }
     }
