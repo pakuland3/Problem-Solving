@@ -8,6 +8,10 @@ struct frac{
 
 struct p{
     ll x,y;
+    bool operator<(p &a){
+        if(x==a.x) return y<a.y;
+        return x<a.x;
+    }
     bool operator<=(p &a){
         if(x==a.x) return y<=a.y;
         return x<=a.x;
@@ -26,12 +30,12 @@ int ccw(p a, p b, p c){
     return t;
 }
 
-bool isIntersect(l a, l b){
+int isIntersect(l a, l b){
     int t1=ccw(a.p1,a.p2,b.p1)*ccw(a.p1,a.p2,b.p2);
     int t2=ccw(b.p1,b.p2,a.p1)*ccw(b.p1,b.p2,a.p2);
     if(t1<=0 && t2<=0){
         if(t1==0 && t2==0){
-            if(a.p1<=b.p2 && b.p1<=a.p2) return 1;
+            if(a.p1<=b.p2 && b.p1<=a.p2) return 2;
             else return 0;
         }
         else return 1;
@@ -66,20 +70,28 @@ int main(){
     cout << fixed;
     input(a);
     input(b);
-    bool s=isIntersect(a,b);
+    int s=isIntersect(a,b);
     if(s){
         cout << "1\n";
+        if(s==2){
+            if(a.p1<=b.p1 && b.p1<=a.p2 && b.p1<a.p2) return 0;
+            if(a.p1<=b.p2 && b.p2<=a.p2 && a.p1<b.p2) return 0;
+        }
         frac aa,bb,ap,bp,x,y;
-        aa.top=a.p1.y-a.p2.y,aa.bottom=a.p1.x-a.p2.x;
+        aa.top=a.p1.y-a.p2.y;
+        aa.bottom=a.p1.x-a.p2.x;
         doGCD(aa);
-        bb.top=(a.p1.x-a.p2.x)*a.p1.y-(a.p1.y-a.p2.y)*a.p1.x,bb.bottom=a.p1.x-a.p2.x;
+        bb.top=(a.p1.x-a.p2.x)*a.p1.y-(a.p1.y-a.p2.y)*a.p1.x;
+        bb.bottom=a.p1.x-a.p2.x;
         doGCD(bb);
-        ap.top=b.p1.y-b.p2.y,ap.bottom=b.p1.x-b.p2.x;
+        ap.top=b.p1.y-b.p2.y;
+        ap.bottom=b.p1.x-b.p2.x;
         doGCD(ap);
-        bp.top=(b.p1.x-b.p2.x)*b.p1.y-(b.p1.y-b.p2.y)*b.p1.x,bp.bottom=b.p1.x-b.p2.x;
+        bp.top=(b.p1.x-b.p2.x)*b.p1.y-(b.p1.y-b.p2.y)*b.p1.x;
+        bp.bottom=b.p1.x-b.p2.x;
         doGCD(bp);
-        if(a.p1==b.p2) printp(a.p1);
-        else if(a.p2==b.p1) printp(a.p2);
+        if(a.p1==b.p1 || a.p1==b.p2) printp(a.p1);
+        else if(a.p2==b.p1 || a.p2==b.p2) printp(a.p2);
         else if(isVertical(a) && isHorizontal(b)) cout << a.p1.x << ' ' << b.p1.y;
         else if(isVertical(b) && isHorizontal(a)) cout << b.p1.x << ' ' << a.p1.y;
         else if(!(isVertical(a) && isVertical(b)) && !(isHorizontal(a) && isHorizontal(b))){
