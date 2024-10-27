@@ -1,36 +1,24 @@
 #include <bits/stdc++.h>
-#define FI first
-#define SE second
-#define piii pair<int,pair<int,int>>
 typedef long long ll;
 using namespace std;
-
-bool c[1000],d[1000];
 
 int main(){
     ios_base::sync_with_stdio(false); cin.tie(NULL);
     int n,m;
     cin >> n >> m;
     vector<int> a(n),b(m);
-    priority_queue<piii,vector<piii>,greater<piii>> pq;
+    vector<vector<int>> dp(n+1,vector<int> (m+1,0));
     for(int &t:a) cin >> t;
-    for(int i=0;i<m;i++){
-        cin >> b[i];
-        for(int j=0;j<n;j++) pq.push({abs(b[i]-a[j]),{j,i}});
-    }
-    int cnt=min(n,m);
-    ll res=0;
-    while(cnt--){
-        piii p=pq.top();
-        pq.pop();
-        if(c[p.SE.FI] || d[p.SE.SE]){
-            cnt++;
-            continue;
+    for(int &t:b) cin >> t;
+    sort(a.begin(),a.end());
+    sort(b.begin(),b.end());
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            if(i==j) dp[i][j]=dp[i-1][j-1]+abs(a[i-1]-b[j-1]);
+            if(i>j) dp[i][j]=min(dp[i-1][j-1]+abs(a[i-1]-b[j-1]),dp[i-1][j]);
+            if(i<j) dp[i][j]=min(dp[i-1][j-1]+abs(a[i-1]-b[j-1]),dp[i][j-1]);
         }
-        res+=(ll)p.FI;
-        c[p.SE.FI]=1;
-        d[p.SE.SE]=1;
     }
-    cout << res;
+    cout << dp[n][m];
     return 0;
 }
