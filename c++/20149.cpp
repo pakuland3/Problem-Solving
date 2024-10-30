@@ -27,7 +27,7 @@ int ccw(p a, p b, p c){
     ll t=a.x*b.y+b.x*c.y+c.x*a.y-a.x*c.y-b.x*a.y-c.x*b.y;
     if(t>0) return 1;
     if(t<0) return -1;
-    return t;
+    return 0;
 }
 
 int isIntersect(l a, l b){
@@ -49,8 +49,6 @@ void input(l &a){
     cin >> a.p1.x >> a.p1.y >> a.p2.x >> a.p2.y;
     s(a);
 }
-
-void printp(p a){ cout << a.x << ' ' << a.y; }
 
 bool isVertical(l a){ return a.p1.x==a.p2.x; }
 
@@ -74,8 +72,10 @@ int main(){
     if(s){
         cout << "1\n";
         if(s==2){
-            if(a.p1<=b.p1 && b.p1<=a.p2 && b.p1<a.p2) return 0;
-            if(a.p1<=b.p2 && b.p2<=a.p2 && a.p1<b.p2) return 0;
+            if(a.p1<=b.p1 && b.p1<=a.p2 && a.p2<=b.p2) return 0;
+            if(a.p1<=b.p1 && b.p2<=a.p2) return 0;
+            if(b.p1<=a.p1 && a.p2<=b.p2) return 0;
+            if(b.p1<=a.p1 && a.p1<=b.p2 && b.p2<=a.p2) return 0;
         }
         frac aa,bb,ap,bp,x,y;
         aa.top=a.p1.y-a.p2.y;
@@ -90,8 +90,8 @@ int main(){
         bp.top=(b.p1.x-b.p2.x)*b.p1.y-(b.p1.y-b.p2.y)*b.p1.x;
         bp.bottom=b.p1.x-b.p2.x;
         doGCD(bp);
-        if(a.p1==b.p1 || a.p1==b.p2) printp(a.p1);
-        else if(a.p2==b.p1 || a.p2==b.p2) printp(a.p2);
+        if(a.p1==b.p1 || a.p1==b.p2) cout << a.p1.x << ' ' << a.p1.y;
+        else if(a.p2==b.p1 || a.p2==b.p2) cout << a.p2.x << ' ' << a.p2.y;
         else if(isVertical(a) && isHorizontal(b)) cout << a.p1.x << ' ' << b.p1.y;
         else if(isVertical(b) && isHorizontal(a)) cout << b.p1.x << ' ' << a.p1.y;
         else if(!(isVertical(a) && isVertical(b)) && !(isHorizontal(a) && isHorizontal(b))){
