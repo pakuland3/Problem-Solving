@@ -2,33 +2,38 @@
 typedef long long ll;
 using namespace std;
 
-ll n,k;
+ll fact[11];
+ll dp[56][56][56];
+ll n,res=0;
 int r,g,b;
-ll dp[101][101][101];
-
-ll gf(ll a){
-    ll t=a/3+1;
-    int cnt=a/3;
-    a=a/3*2+1;
-    for(int i=0;i<cnt;i++) t*=a--;
-    for(int i=2;i<=cnt;i++) t/=i;
-    return t;
-}
-
-ll solve(ll f, int r, int g, int b){
-    if(r<0 || g<0 || b<0) return 0;
-    if(r==0 && g==0 && b==0) return 1;
-    if(f>n) return 0;
-    if(dp[r][g][b]!=0) return dp[r][g][b];
-    dp[r][g][b]+=solve(f+1,r-f,g,b)+solve(f+1,r,g-f,b)+solve(f+1,r,g,b-f);
-    if(!(f%2)) dp[r][g][b]+=(f/2+1)*(solve(f+1,r-f/2,g-f/2,b)+solve(f+1,r-f/2,g,b-f/2)+solve(f+1,r,g-f/2,b-f/2));
-    if(!(f%3)) dp[r][g][b]+=gf(f)*solve(f+1,r-f/3,g-f/3,b-f/3);
-    return dp[r][g][b];
-}
 
 int main(){
     ios_base::sync_with_stdio(false); cin.tie(NULL);
+    fact[1]=1;
+    for(int i=2;i<11;i++) fact[i]=fact[i-1]*i;
+    vector<int> f; for(int i=1;i<11;i++) f.push_back(i*(i+1)/2);
     cin >> n >> r >> g >> b;
-    cout << solve(1,r,g,b);
+    r=min(r,55);
+    g=min(g,55);
+    b=min(b,55);
+    dp[0][0][0]=1;
+    for(int i=0;i<=r;i++){
+        for(int j=0;j<=g;j++){
+            for(int k=0;k<=b;k++){
+                auto it=lower_bound(f.begin(),f.end(),i+j+k);
+                if(it==f.end() || *it!=i+j+k) continue;
+                ll d=it-f.begin()+1;
+                if(i>=d) dp[i][j][k]+=dp[i-d][j][k];
+                if(j>=d) dp[i][j][k]+=dp[i][j-d][k];
+                if(k>=d) dp[i][j][k]+=dp[i][j][k-d];
+                if(d%2==0 && i>=d/2 && j>=d/2) dp[i][j][k]+=fact[d]/fact[d/2]/fact[d/2]*dp[i-d/2][j-d/2][k];
+                if(d%2==0 && j>=d/2 && k>=d/2) dp[i][j][k]+=fact[d]/fact[d/2]/fact[d/2]*dp[i][j-d/2][k-d/2];
+                if(d%2==0 && i>=d/2 && k>=d/2) dp[i][j][k]+=fact[d]/fact[d/2]/fact[d/2]*dp[i-d/2][j][k-d/2];
+                if(d%3==0 && i>=d/3 && j>=d/3 && k>=d/3) dp[i][j][k]+=fact[d]/fact[d/3]/fact[d/3]/fact[d/3]*dp[i-d/3][j-d/3][k-d/3];
+                if(d==n) res+=dp[i][j][k];
+            }
+        }
+    }
+    cout << res;
     return 0;
 }
