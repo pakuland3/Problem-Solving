@@ -55,15 +55,61 @@
 //     return 0;
 // }
 
+// using union find
+
 #include <bits/stdc++.h>
 typedef long long ll;
 using namespace std;
 
+int parent[200];
+int cnt[200];
+bool vis[200];
+
+int getParent(int x){
+    if(x==parent[x]) return x;
+    return parent[x]=getParent(parent[x]);
+}
+
+void unionParent(int a, int b){
+    a=getParent(a);
+    b=getParent(b);
+    if(a>b){
+        parent[a]=b;
+        cnt[b]+=cnt[a];
+    }
+    else{
+        parent[b]=a;
+        cnt[a]+=cnt[b];
+    }
+}
+
 int main(){
-    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
     int m,n,k;
     cin >> m >> n >> k;
-    vector<int> parent(n+1,-1);
-    
+    for(int i=0;i<200;i++){
+        parent[i]=i;
+        cnt[i]=1;
+    }
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            int cost;
+            cin >> cost;
+            if(cost) continue;
+            unionParent(i,j+100);
+        }
+    }
+    int res=0;
+    for(int i=0;i<n;i++){
+        int p=getParent(i+100);
+        if(cnt[p]==1){
+            cout << "no";
+            return 0;
+        }
+        if(vis[p]) continue;
+        res++;
+        vis[p]=1;
+    }
+    cout << (res>k?"no":"yes");
     return 0;
 }
