@@ -1,57 +1,26 @@
 #include <bits/stdc++.h>
-#define PI 3.14159265358979
+#define PI 3.1415926535
 typedef long long ll;
-typedef long double ld;
 using namespace std;
-
-struct p{
-    ld x,y,r;
-};
-
-ld dis(p a, p b){
-    return sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));
-}
-
-ld theta(p a, p b){
-    ld d=dis(a,b);
-    ld bot=(ld)2*d*a.r;
-    ld t=acos((d*d+a.r*a.r-b.r*b.r)/bot);
-    return t;
-}
-
-ld solve(p a, p b){
-    ld t=theta(a,b);
-    ld S1=a.r*a.r*t/(ld)2;
-    ld S2=a.r*a.r*sin(t)*cos(t);
-    return S1-S2;
-}
 
 int main(){
     ios_base::sync_with_stdio(false); cin.tie(NULL);
     cout.precision(3);
     cout << fixed;
-    p a,b;
-    cin >> a.x >> a.y >> a.r >> b.x >> b.y >> b.r;
-    ld d=dis(a,b);
-    if(a.r==0 || b.r==0 || d>=a.r+b.r){
-        cout << 0;
-        return 0;
+    double x1,y1,x2,y2,r1,r2;
+    cin >> x1 >> y1 >> r1 >> x2 >> y2 >> r2;
+    double d=sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+    double ans;
+    if(d>=r1+r2) ans=0;
+    else if(d+min(r1,r2)<=max(r1,r2)) ans=PI*min(r1,r2)*min(r1,r2);
+    else{
+        double t1=2.0*acos((r1*r1+d*d-r2*r2)/2.0/r1/d);
+        double t2=2.0*acos((r2*r2+d*d-r1*r1)/2.0/r2/d);
+        double s1=r1*r1*t1/2.0-r1*r1*sin(t1)/2.0;
+        double s2=r2*r2*t2/2.0-r2*r2*sin(t2)/2.0;
+        ans=s1+s2;
     }
-    ld ans=-1;
-    if(d<b.r){
-        ld t=theta(b,a);
-        ans=b.r*a.r/(ld)2+b.r*b.r*(t-sin(t));
-    }
-    else if(d<a.r){
-        ld t=theta(b,a);
-        ans=b.r*a.r/(ld)2+a.r*a.r*(t-sin(t));
-    }
-    else if(a.r+d<=b.r) ans=a.r*a.r*PI;
-    else if(b.r+d<=a.r) ans=b.r*b.r*PI;
-    else ans=solve(a,b)+solve(b,a);
-    ans*=1000;
-    ans=round(ans);
-    ans/=1000;
+    ans=round(ans*1000)/1000;
     cout << ans;
     return 0;
 }
