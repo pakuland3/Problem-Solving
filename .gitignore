@@ -16,3 +16,4 @@ in
 out
 *.in
 *.out
+*.class
