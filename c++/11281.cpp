@@ -9,8 +9,6 @@ int scc[SIZE];
 vector<int> order;
 vector<int> g[SIZE];
 vector<int> gr[SIZE];
-int agn[SIZE];
-int v[SIZE];
 
 inline int inv(int a){ return (a>n?a-n:a+n); }
 
@@ -26,14 +24,6 @@ void dfs_rev(int now, int num){
     vis[now]=1;
     scc[now]=num;
     for(int nx:gr[now]) dfs_rev(nx,num);
-}
-
-void agnv(int now){
-    if(agn[now]) return;
-    agn[now]=1;
-    agn[inv(now)]=1;
-    v[inv(now)]=1;
-    for(int nx:g[now]) if(scc[nx]==scc[now]) agnv(nx);
 }
 
 int main(){
@@ -66,7 +56,6 @@ int main(){
         }
     }
     cout << "1\n";
-    for(int i:order) agnv(i);
-    for(int i=1;i<=n;i++) cout << v[i] << ' ';
+    for(int i=1;i<=n;i++) cout << (scc[i]>scc[inv(i)]) << ' ';
     return 0;
 }
